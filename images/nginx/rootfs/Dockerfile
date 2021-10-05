@@ -54,24 +54,24 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
 RUN microdnf -y update && rm -rf /var/cache/yum
 RUN microdnf -y install lmdb-libs || rpm -iv http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/lmdb-libs-0.9.24-1.el8.x86_64.rpm
 RUN microdnf -y install \
-      util-linux \
-      findutils \
-      which \
-      yajl \
-      GeoIP \
-      libmaxminddb \
-      lmdb
+  util-linux \
+  findutils \
+  which \
+  yajl \
+  GeoIP \
+  libmaxminddb \
+  lmdb
 
 RUN microdnf -y install crypto-policies-scripts
 
 RUN rm -rf /var/cache/yum
 
 RUN ldDirs=" \
-      /usr/local/lib \
-      /usr/local/lib64 \
+  /usr/local/lib \
+  /usr/local/lib64 \
   "; \
   for dir in ${ldDirs}; do \
-    echo "${dir}" >>/etc/ld.so.conf.d/local.conf; \
+  echo "${dir}" >>/etc/ld.so.conf.d/local.conf; \
   done
 RUN /sbin/ldconfig
 
@@ -80,17 +80,17 @@ RUN groupadd -rg 101 www-data
 RUN adduser -u 101 -M -d /usr/local/nginx -s /sbin/nologin -G www-data -g www-data www-data
 
 RUN writeDirs=" \
-      /var/log/nginx \
-      /var/lib/nginx/body \
-      /var/lib/nginx/fastcgi \
-      /var/lib/nginx/proxy \
-      /var/lib/nginx/scgi \
-      /var/lib/nginx/uwsgi \
-      /var/log/audit \
+  /var/log/nginx \
+  /var/lib/nginx/body \
+  /var/lib/nginx/fastcgi \
+  /var/lib/nginx/proxy \
+  /var/lib/nginx/scgi \
+  /var/lib/nginx/uwsgi \
+  /var/log/audit \
   "; \
   for dir in ${writeDirs}; do \
-    mkdir -p ${dir}; \
-    chown -R www-data.www-data ${dir}; \
+  mkdir -p ${dir}; \
+  chown -R www-data.www-data ${dir}; \
   done
 
 RUN microdnf clean all
